@@ -62,7 +62,7 @@ class ReadingStreakService {
 
     if(readingDates.length === 0){
       return{
-        currentStreak : 0,
+        currentStreak : 1,
         longestStreak: 0,
         totalReadingDays : 0,
         lastReadDate: null,
