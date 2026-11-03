@@ -2,6 +2,7 @@ const { BookRepo } = require('../models/Book');
 const { NoteRepo } = require('../models/Note');
 const { RecommendationRepo } = require('../models/Recommendation');
 const OpenLibraryService = require('../services/openLibraryService');
+const {ReadingActivityRepo} = require('../models/ReadingActivity')
 
 const VALID_STATUSES = ['want_to_read', 'currently_reading', 'completed'];
 
@@ -244,7 +245,21 @@ const updateBook = async (req, res) => {
       updateData.description = typeof description === 'string' ? description.slice(0, 2000) : '';
     }
 
+    const oldProgress = Number(book.progressPages || 0);
+    const newProgress = updateData.progressPages !== undefined ? Number(updateData.progressPages): oldProgress;
+
+
+    const newlyReadPages = newProgress - oldProgress;
+
     const updated = await BookRepo.updateById(bookId, updateData);
+
+    if(newlyReadPages > 0){
+      await ReadingActivityRepo.addPages(
+        userId,
+        new Date().toISOString().slice(0,10),
+        newlyReadPages
+      );
+    }
 
     if (shouldInvalidateRecs) {
       await RecommendationRepo.invalidateUser(userId);

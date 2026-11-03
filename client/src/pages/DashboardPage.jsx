@@ -11,6 +11,8 @@ import { NoteCard } from '../components/notes/NoteCard';
 import { SkeletonCard, SkeletonRow } from '../components/ui/Skeleton';
 import { useAuth } from '../context/AuthContext';
 import { useQueryClient } from '@tanstack/react-query';
+import {ReadingStats} from '../components/reading/ReadingStats';
+import { ReadingGoalSettings } from '../components/reading/ReadingGoalSettings';
 
 // === API fetch helpers ===
 const fetchBooks = async () => {
@@ -136,6 +138,8 @@ export const DashboardPage = () => {
             </>
           )}
         </div>
+        <ReadingStats/>
+        <ReadingGoalSettings/>
 
         {/* Main 2-Column Section */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '24px' }}>

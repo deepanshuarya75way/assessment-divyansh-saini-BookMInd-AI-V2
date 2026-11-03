@@ -21,7 +21,7 @@ const bookSchema = new mongoose.Schema({
   genres: [{ type: String }],
   description: { type: String, default: '' },
   addedAt: { type: Date, default: Date.now },
-  completedAt: { type: Date }
+  completedAt: { type: Date, default: null }
 });
 
 // Compound indexes for high-frequency user-scoped queries

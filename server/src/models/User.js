@@ -7,6 +7,7 @@ const userSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true, lowercase: true, trim: true },
   passwordHash: { type: String, required: true },
   readingGoal: { type: Number, default: 24 },
+  dailyPageGoal: {type: Number, default:30},
   favoriteGenres: [{ type: String }],
   avatar: { type: String, default: '' },
   createdAt: { type: Date, default: Date.now }
@@ -41,7 +42,8 @@ class UserRepo {
   static async create(userData) {
     const cleanData = {
       ...userData,
-      email: userData.email ? userData.email.toLowerCase().trim() : ''
+      email: userData.email ? userData.email.toLowerCase().trim() : '',
+      dailyPageGoal: userData.dailyPageGoal?? 30
     };
     if (getIsMongoConnected()) {
       const u = new MongoUser(cleanData);
